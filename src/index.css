@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+@theme inline {
+  --default-font-family: Roboto, sans-serif;
+  --font-mono: Montserrat Mono;
+
+  --color-purple-dark-950: #18111b;
+  --color-purple-dark-900: #1e1523;
+  --color-purple-dark-800: #3d224e;
+  --color-purple-dark-700: #48295c;
+  --color-purple-dark-600: #54346b;
+  --color-purple-dark-500: #664282;
+  --color-purple-dark-400: #8457aa;
+  --color-purple-dark-300: #9a5cd0;
+  --color-purple-dark-200: #d19dff;
+  --color-purple-dark-100: #ecd9fa;
+
+  --color-mauve-dark-950: #121113;
+  --color-mauve-dark-900: #1a191b;
+  --color-mauve-dark-800: #232225;
+  --color-mauve-dark-700: #2b292d;
+  --color-mauve-dark-600: #323035;
+  --color-mauve-dark-500: #3c393f;
+  --color-mauve-dark-400: #49474e;
+  --color-mauve-dark-300: #625f69;
+  --color-mauve-dark-200: #6f6d78;
+  --color-mauve-dark-100: #7c7a85;
+  --color-mauve-dark-50: #b5b2bc;
+  --color-mauve-dark-100: #eeeef0;
+
+  --color-mauve-950: #211f26;
+  --color-mauve-900: #65636d;
+  --color-mauve-800: #84828e;
+  --color-mauve-700: #8e8c99;
+  --color-mauve-600: #bcbac7;
+  --color-mauve-500: #d0cdd7;
+  --color-mauve-400: #dbd8e0;
+  --color-mauve-300: #e3dfe6;
+  --color-mauve-200: #eae7ec;
+  --color-mauve-100: #f2eff3;
+  --color-mauve-50: #faf9fb;
+  --color-mauve-100: #fdfcfd;
+}
+
+@layer base {
+  body {
+    @apply bg-zinc-950 text-zinc-100 antialiased;
+  }
+}
