@@ -2,7 +2,7 @@
 
 @theme inline {
   --default-font-family: Roboto, sans-serif;
-  --font-mono: Montserrat Mono;
+  --font-mono: Montserrat;
 
   --color-purple-dark-950: #18111b;
   --color-purple-dark-900: #1e1523;
@@ -44,6 +44,19 @@
 
 @layer base {
   body {
-    @apply bg-zinc-950 text-zinc-100 antialiased;
+    background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.95) 0%,
+        rgba(0, 0, 0, 0.92) 40%,
+        rgba(0, 0, 0, 0.85) 80%,
+        rgba(0, 0, 0, 0.8) 100%
+      ),
+      url("/background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top, center -256px;
+    background-color: #000;
+    @apply min-h-screen text-white;
+    @apply bg-mauve-dark-950 text-mauve-dark-100 antialiased flex flex-col;
   }
 }
