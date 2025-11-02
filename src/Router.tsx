@@ -1,3 +1,4 @@
+import { NuqsAdapter } from "nuqs/adapters/react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -11,37 +12,39 @@ import { RegisterPage } from "./pages/RegisterPage";
 export function AppRouter() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route
-              path="/"
-              element={
-                <PublicRoute>
-                  <LoginPage />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <PublicRoute>
-                  <RegisterPage />
-                </PublicRoute>
-              }
-            />
+      <NuqsAdapter>
+        <AuthProvider>
+          <Routes>
+            <Route element={<Layout />}>
+              <Route
+                path="/"
+                element={
+                  <PublicRoute>
+                    <LoginPage />
+                  </PublicRoute>
+                }
+              />
+              <Route
+                path="/register"
+                element={
+                  <PublicRoute>
+                    <RegisterPage />
+                  </PublicRoute>
+                }
+              />
 
-            <Route
-              path="/movies"
-              element={
-                <ProtectedRoute>
-                  <MoviesPage />
-                </ProtectedRoute>
-              }
-            />
-          </Route>
-        </Routes>
-      </AuthProvider>
+              <Route
+                path="/movies"
+                element={
+                  <ProtectedRoute>
+                    <MoviesPage />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+          </Routes>
+        </AuthProvider>
+      </NuqsAdapter>
     </BrowserRouter>
   );
 }
