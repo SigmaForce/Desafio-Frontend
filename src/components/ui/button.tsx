@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import { tv, type VariantProps } from "tailwind-variants";
 
 const iconButton = tv({
-  base: "flex cursor-pointer items-center px-5 py-3 rounded-xs h-11 justify-center transition-colors duration-150",
+  base: "flex w-fit text-nowrap cursor-pointer items-center px-5 py-3 rounded-xs h-11 justify-center transition-colors duration-150",
   variants: {
     variant: {
       primary:
