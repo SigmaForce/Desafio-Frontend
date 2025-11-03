@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Search from "../assets/icons/search.png";
 import { Filters } from "../components/Filters";
 import { MovieList } from "../components/MovieList";
 import { Button } from "../components/ui/button";
@@ -54,6 +55,7 @@ export function MoviesPage() {
           <div className="relative flex-1 sm:min-w-[300px]">
             <Input
               placeholder="Pesquise por filmes"
+              icon={<img src={Search} aria-label="Pesquisar" />}
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               className="pr-8"

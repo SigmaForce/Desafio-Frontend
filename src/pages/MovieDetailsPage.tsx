@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import MovieDetails from "../components/MovieDetails";
+import { Unauthorized } from "../components/Unauthorized";
+import { useAuth } from "../context/AuthContext";
 import { useMovie } from "../hooks/useMovie";
 
 export interface Movie {
@@ -29,6 +31,7 @@ export interface Movie {
 
 export function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
+  const { user } = useAuth();
   const { data: movie, isLoading, error } = useMovie(id!);
 
   if (isLoading) {
@@ -47,6 +50,10 @@ export function MovieDetailsPage() {
         </div>
       </div>
     );
+  }
+
+  if (user?.id !== movie.userId) {
+    return <Unauthorized />;
   }
 
   return <MovieDetails movie={movie} />;
