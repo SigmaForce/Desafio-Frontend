@@ -1,3 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import {
   formatCurrencyShort,
@@ -20,7 +23,28 @@ interface MovieDetailsProps {
 }
 
 export default function MovieDetails({ movie }: MovieDetailsProps) {
+  const [open, setOpen] = useState(false);
   const { user } = useAuth();
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: deleteMovie } = useMutation({
+    mutationFn: async (id: string) => {
+      await fetch(`/api/movie/${id}`, {
+        method: "DELETE",
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["movies"],
+      });
+      navigate("/movies");
+    },
+  });
+
+  const handleCloseSheet = () => {
+    setOpen(false);
+  };
 
   return (
     <div className="lg:relative container mx-auto flex-1  mt-8 text-white">
@@ -40,10 +64,14 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
         </div>
         {user?.id === movie.userId && (
           <div className="flex gap-3 mb-3 lg:mb-0">
-            <Button size="lg" variant="secondary">
+            <Button
+              onClick={() => deleteMovie(movie.id)}
+              size="lg"
+              variant="secondary"
+            >
               Deletar
             </Button>
-            <Sheet>
+            <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button size="lg" variant="primary" className="flex-1">
                   Editar Filme
@@ -54,7 +82,7 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
                   <SheetTitle> Editar Filme</SheetTitle>
                 </SheetHeader>
                 <div className="p-4">
-                  <EditMovieForm movie={movie} />
+                  <EditMovieForm movie={movie} closeSheet={handleCloseSheet} />
                 </div>
               </SheetContent>
             </Sheet>

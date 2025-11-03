@@ -18,6 +18,7 @@ import { useMovieFilters } from "../hooks/useMovieFilters";
 export function MoviesPage() {
   const [filters, setFilters] = useMovieFilters();
   const [searchInput, setSearchInput] = useState(filters.title || "");
+  const [open, setOpen] = useState(false);
 
   const debouncedSearch = useDebounce(searchInput, 500);
 
@@ -40,6 +41,10 @@ export function MoviesPage() {
 
   const handlePageChange = (page: number) => {
     setFilters({ ...filters, page });
+  };
+
+  const handleCloseSheet = () => {
+    setOpen(false);
   };
 
   return (
@@ -65,7 +70,7 @@ export function MoviesPage() {
           </div>
           <div className="flex gap-4 items-center">
             <Filters />
-            <Sheet>
+            <Sheet open={open} onOpenChange={setOpen}>
               <SheetTrigger asChild>
                 <Button size="lg" variant="primary" className="flex-1">
                   Adicionar Filme
@@ -76,7 +81,7 @@ export function MoviesPage() {
                   <SheetTitle>Adicionar Filme</SheetTitle>
                 </SheetHeader>
                 <div className="p-4">
-                  <CreateMovieForm />
+                  <CreateMovieForm closeSheet={handleCloseSheet} />
                 </div>
               </SheetContent>
             </Sheet>

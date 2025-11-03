@@ -1,8 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { useCreateMovie } from "../hooks/useCreateMovie";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import {
@@ -66,8 +66,12 @@ const movieFormSchema = z.object({
 
 type MovieFormValues = z.infer<typeof movieFormSchema>;
 
-export function CreateMovieForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+interface CreateMovieFormProps {
+  closeSheet?: () => void;
+}
+
+export function CreateMovieForm({ closeSheet }: CreateMovieFormProps) {
+  const { mutateAsync: createMovie, isPending } = useCreateMovie();
 
   const {
     register,
@@ -101,7 +105,6 @@ export function CreateMovieForm() {
   const statusValue = watch("status");
 
   const onSubmit = async (data: MovieFormValues) => {
-    setIsSubmitting(true);
     try {
       const formData = new FormData();
 
@@ -128,23 +131,12 @@ export function CreateMovieForm() {
       formData.append("poster", data.poster[0]);
       formData.append("backdrop", data.backdrop[0]);
 
-      const response = await fetch("/api/movie", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Erro ao criar filme");
-      }
-
-      const result = await response.json();
+      await createMovie({ formData });
 
       reset();
+      closeSheet?.();
     } catch (error) {
       console.error("Erro ao criar filme:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -425,7 +417,7 @@ export function CreateMovieForm() {
             type="button"
             variant="secondary"
             size="lg"
-            disabled={isSubmitting}
+            disabled={isPending}
             className="flex-1"
           >
             Cancelar
@@ -435,10 +427,10 @@ export function CreateMovieForm() {
           type="submit"
           variant="primary"
           size="lg"
-          disabled={isSubmitting}
+          disabled={isPending}
           className="flex-1"
         >
-          {isSubmitting ? (
+          {isPending ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Cadastrando...

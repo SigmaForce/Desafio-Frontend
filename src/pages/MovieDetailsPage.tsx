@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import MovieDetails from "../components/MovieDetails";
+import { useMovie } from "../hooks/useMovie";
 
 export interface Movie {
   ageRating: number;
@@ -29,40 +29,9 @@ export interface Movie {
 
 export function MovieDetailsPage() {
   const { id } = useParams<{ id: string }>();
-  const [movie, setMovie] = useState<Movie | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data: movie, isLoading, error } = useMovie(id!);
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        setLoading(true);
-        const token = localStorage.getItem("token");
-
-        const response = await fetch(`/api/movie/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Erro ao carregar detalhes do filme");
-        }
-
-        const data = await response.json();
-        console.log(data);
-        setMovie(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Erro desconhecido");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovieDetails();
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-white text-xl">Carregando...</div>
@@ -74,7 +43,7 @@ export function MovieDetailsPage() {
     return (
       <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-red-500 text-xl">
-          {error || "Filme não encontrado"}
+          {error?.message || "Filme não encontrado"}
         </div>
       </div>
     );

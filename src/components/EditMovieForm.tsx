@@ -1,8 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
+import { useEditMovie } from "../hooks/useEditMovie";
 import type { Movie } from "../pages/MovieDetailsPage";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -24,7 +25,7 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/gif",
 ];
 
-const movieFormSchema = z.object({
+const editMovieFormSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
   originalTitle: z.string().min(1, "Título original é obrigatório"),
   tagline: z.string().min(1, "Slogan é obrigatório"),
@@ -73,14 +74,15 @@ const movieFormSchema = z.object({
     ),
 });
 
-type MovieFormValues = z.infer<typeof movieFormSchema>;
+export type EditMovieFormValues = z.infer<typeof editMovieFormSchema>;
 
 interface EditMovieFormProps {
   movie: Movie;
+  closeSheet: () => void;
 }
 
-export function EditMovieForm({ movie }: EditMovieFormProps) {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export function EditMovieForm({ movie, closeSheet }: EditMovieFormProps) {
+  const { mutateAsync: editMovie, isPending } = useEditMovie();
 
   const {
     register,
@@ -89,8 +91,8 @@ export function EditMovieForm({ movie }: EditMovieFormProps) {
     reset,
     setValue,
     watch,
-  } = useForm<MovieFormValues>({
-    resolver: zodResolver(movieFormSchema) as any,
+  } = useForm<EditMovieFormValues>({
+    resolver: zodResolver(editMovieFormSchema) as any,
     defaultValues: {
       title: movie.title,
       originalTitle: movie.originalTitle,
@@ -134,8 +136,7 @@ export function EditMovieForm({ movie }: EditMovieFormProps) {
     });
   }, [movie, reset]);
 
-  const onSubmit = async (data: MovieFormValues) => {
-    setIsSubmitting(true);
+  const onSubmit = async (data: EditMovieFormValues) => {
     try {
       const formData = new FormData();
 
@@ -166,21 +167,10 @@ export function EditMovieForm({ movie }: EditMovieFormProps) {
         formData.append("backdrop", data.backdrop[0]);
       }
 
-      const response = await fetch(`/api/movie/${movie.id}`, {
-        method: "PUT",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Erro ao atualizar filme");
-      }
-
-      const result = await response.json();
+      await editMovie({ id: movie.id, formData });
+      closeSheet();
     } catch (error) {
       console.error("Erro ao atualizar filme:", error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -477,7 +467,7 @@ export function EditMovieForm({ movie }: EditMovieFormProps) {
             type="button"
             size="lg"
             variant="secondary"
-            disabled={isSubmitting}
+            disabled={isPending}
             className="flex-1"
           >
             Cancelar
@@ -487,10 +477,10 @@ export function EditMovieForm({ movie }: EditMovieFormProps) {
           type="submit"
           size="lg"
           variant="primary"
-          disabled={isSubmitting}
+          disabled={isPending}
           className="flex-1"
         >
-          {isSubmitting ? (
+          {isPending ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Atualizando...

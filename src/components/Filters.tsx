@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Filter from "../assets/icons/filter.png";
 import { useMovieFilters } from "../hooks/useMovieFilters";
 import { Button } from "./ui/button";
 import {
@@ -122,7 +123,10 @@ export function Filters() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button size="lg" variant="secondary">
-          Filtros
+          <div className=" flex items-center gap-2">
+            <span>Filtros</span>
+            <img src={Filter} aria-label="Filtro" />
+          </div>
           {activeFiltersCount > 0 && (
             <span className="ml-2 bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-semibold">
               {activeFiltersCount}
