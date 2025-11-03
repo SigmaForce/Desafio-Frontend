@@ -1,22 +1,31 @@
-import Sun from "../../assets/icons/Sun.png";
+import { Link } from "react-router-dom";
+import Sun from "../../assets/icons/sun.png";
+import { useAuth } from "../../context/AuthContext";
 import { Button } from "./button";
-import { IconButton } from "./iconButton";
+import { Logo } from "./logo";
 
 export function Header() {
+  const { logout, isAuthenticated } = useAuth();
+
   return (
     <div className="bg-mauve-dark-950/80  border-b border-[#F1E6FD]/18">
       <header className="container mx-auto flex justify-between items-center py-4 px-4 lg:px-0">
-        <div className="flex items-center gap-4">
-          <img
-            src="/logo.svg"
-            className="hidden lg:block"
-            alt="Logo da Cubos"
-          />
-          <span className="font-sans">Movies</span>
-        </div>
+        <Link
+          to={`${isAuthenticated ? "/movies" : "/"}`}
+          className="flex items-center gap-4"
+        >
+          <Logo />
+          <span className="font-mono text-xl text-[#EEEEF0] font-bold">
+            Movies
+          </span>
+        </Link>
         <div className="flex items-center gap-2">
-          <IconButton icon={<img src={Sun} className="size-6" />} />
-          <Button variant="primary">Logout</Button>
+          <Button size="icon" variant="secondary">
+            <img src={Sun} className="size-6" />
+          </Button>
+          <Button onClick={logout} size="lg" variant="primary">
+            Logout
+          </Button>
         </div>
       </header>
     </div>
