@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# Cubos Movies
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Uma aplicação web moderna para explorar e gerenciar filmes, construída com React, TypeScript e Vite.
 
-Currently, two official plugins are available:
+## 🚀 Como Executar o Projeto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Pré-requisitos
 
-## React Compiler
+Antes de começar, você precisa ter instalado em sua máquina:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [Node.js](https://nodejs.org/) (versão 18 ou superior)
+- [pnpm](https://pnpm.io/) (gerenciador de pacotes)
 
-## Expanding the ESLint configuration
+### Instalação
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. Clone o repositório
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+git clone https://github.com/SigmaForce/cubos-movies.git
+cd cubos-movies
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2. Instale as dependências
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+pnpm install
+```
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Executando a Aplicação
+
+- Para iniciar o servidor de desenvolvimento:
+
+```bash
+pnpm dev
+```
+
+A aplicação estará disponível em `http://localhost:5173`
+
+- Para criar uma build de produção:
+
+```bash
+pnpm build
+```
+
+- Para visualizar a build de produção localmente:
+
+```bash
+pnpm preview
+```
+
+### Scripts Disponíveis
+
+- `pnpm dev` - Inicia o servidor de desenvolvimento
+- `pnpm build` - Cria uma build otimizada para produção
+- `pnpm preview` - Executa a build de produção localmente
+- `pnpm lint` - Executa a verificação de linting no código
+
+## 🛠 Tecnologias
+
+O projeto utiliza as seguintes tecnologias:
+
+- React 19
+- TypeScript
+- Vite
+- TailwindCSS
+- React Router Dom
+- React Query
+- React Hook Form
+- Radix UI
+- Zod
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── assets/        # Recursos estáticos (ícones, imagens)
+├── components/    # Componentes React reutilizáveis
+├── context/       # Contextos React (AuthContext)
+├── hooks/        # Custom hooks
+├── lib/          # Utilitários e funções auxiliares
+└── pages/        # Componentes de página
 ```
