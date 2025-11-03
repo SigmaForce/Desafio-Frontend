@@ -424,6 +424,7 @@ export function CreateMovieForm() {
           <Button
             type="button"
             variant="secondary"
+            size="lg"
             disabled={isSubmitting}
             className="flex-1"
           >
@@ -433,6 +434,7 @@ export function CreateMovieForm() {
         <Button
           type="submit"
           variant="primary"
+          size="lg"
           disabled={isSubmitting}
           className="flex-1"
         >

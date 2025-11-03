@@ -25,7 +25,6 @@ export function Filters() {
   const [filters, setFilters] = useMovieFilters();
   const [open, setOpen] = useState(false);
 
-  // Estado local para os inputs do formulário
   const [formData, setFormData] = useState({
     status: filters.status || "",
 
@@ -40,7 +39,6 @@ export function Filters() {
     order: filters.order || "desc",
   });
 
-  // Sincroniza formData com filters quando o dialog abrir
   useEffect(() => {
     if (open) {
       setFormData({
@@ -60,7 +58,6 @@ export function Filters() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Atualiza os filtros na URL
     setFilters({
       status: formData.status || null,
       minRating: formData.minRating ? parseInt(formData.minRating) : null,
@@ -71,7 +68,7 @@ export function Filters() {
       maxDuration: formData.maxDuration ? parseInt(formData.maxDuration) : null,
       orderBy: formData.orderBy as any,
       order: formData.order as any,
-      page: 1, // Reseta para a primeira página ao filtrar
+      page: 1,
     });
 
     setOpen(false);
@@ -110,7 +107,6 @@ export function Filters() {
     setOpen(false);
   };
 
-  // Conta quantos filtros ativos existem (excluindo defaults)
   const activeFiltersCount = [
     filters.status,
     filters.minRating,
@@ -125,7 +121,7 @@ export function Filters() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="secondary">
+        <Button size="lg" variant="secondary">
           Filtros
           {activeFiltersCount > 0 && (
             <span className="ml-2 bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs font-semibold">
@@ -158,7 +154,6 @@ export function Filters() {
               </div>
             </div>
 
-            {/* Avaliação */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Input
@@ -192,7 +187,6 @@ export function Filters() {
               </div>
             </div>
 
-            {/* Ano */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Input
@@ -220,7 +214,6 @@ export function Filters() {
               </div>
             </div>
 
-            {/* Duração */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Input
@@ -248,7 +241,6 @@ export function Filters() {
               </div>
             </div>
 
-            {/* Ordenação */}
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <label className="font-bold text-xs" htmlFor="orderBy">
@@ -301,6 +293,7 @@ export function Filters() {
             <Button
               type="button"
               variant="primary"
+              size="lg"
               onClick={handleClearFilters}
               className="sm:mr-auto"
             >
@@ -308,11 +301,13 @@ export function Filters() {
             </Button>
             <div className="flex gap-2">
               <DialogClose asChild>
-                <Button type="button" variant="secondary">
+                <Button type="button" size="lg" variant="secondary">
                   Cancelar
                 </Button>
               </DialogClose>
-              <Button type="submit">Aplicar Filtros</Button>
+              <Button size="lg" type="submit">
+                Aplicar Filtros
+              </Button>
             </div>
           </DialogFooter>
         </form>

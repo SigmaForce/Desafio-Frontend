@@ -8,7 +8,7 @@ import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
 const loginSchema = z.object({
-  email: z.string().min(1, "Email é obrigatório").email("Email inválido"),
+  email: z.email("Email inválido"),
   password: z.string().min(6, "A senha deve ter no mínimo 6 caracteres"),
 });
 
@@ -57,9 +57,9 @@ export function LoginForm() {
         <Input
           {...register("email")}
           className={`${errors.email && "border-red-500"}`}
-          type="text"
-          label="Nome/E-mail"
-          placeholder="Digite seu nome/E-mail"
+          type="email"
+          label="E-mail"
+          placeholder="Digite seu E-mail"
         />
         {errors.email && (
           <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
@@ -84,7 +84,12 @@ export function LoginForm() {
         >
           Não tem uma conta? Registre-se
         </Link>
-        <Button variant="primary" type="submit" disabled={isSubmitting}>
+        <Button
+          size="lg"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Entrando..." : "Entrar"}
         </Button>
       </div>

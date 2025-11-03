@@ -6,11 +6,10 @@ import { z } from "zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-// 🧩 Schema de validação
 const registerSchema = z
   .object({
     name: z.string().min(1, "Nome é obrigatório"),
-    email: z.string().email("E-mail inválido"),
+    email: z.email("E-mail inválido"),
     password: z
       .string()
       .min(6, "A senha deve ter no mínimo 6 caracteres")
@@ -111,7 +110,6 @@ export function RegisterForm() {
         )}
       </div>
 
-      {/* Confirmação de senha */}
       <div>
         <Input
           type="password"
@@ -127,9 +125,13 @@ export function RegisterForm() {
         )}
       </div>
 
-      {/* Botão */}
       <div className="flex justify-end items-center">
-        <Button variant="primary" type="submit" disabled={isSubmitting}>
+        <Button
+          size="lg"
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+        >
           {isSubmitting ? "Cadastrando..." : "Cadastrar"}
         </Button>
       </div>
