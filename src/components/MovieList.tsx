@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import type { MovieFilters } from "../hooks/useMovieFilters";
+import { Pagination } from "./Pagination";
 import { MovieCard } from "./ui/movieCard";
 
 interface MovieListProps {
   filters: MovieFilters;
+  onPageChange?: (page: number) => void;
 }
 
 interface Movie {
@@ -12,7 +14,7 @@ interface Movie {
   releaseDate: string;
   rating: number;
   durationMinutes: number;
-  genre: string;
+  genres: string[];
   language: string;
   status: string;
   votes: number;
@@ -27,11 +29,13 @@ interface PaginationInfo {
   itemsPerPage: number;
 }
 
-export function MovieList({ filters }: MovieListProps) {
+export function MovieList({ filters, onPageChange }: MovieListProps) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [pagination, setPagination] = useState<PaginationInfo | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const currentPage = filters.page || 1;
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -42,10 +46,14 @@ export function MovieList({ filters }: MovieListProps) {
         const params = new URLSearchParams();
 
         Object.entries(filters).forEach(([key, value]) => {
-          if (value !== null && value !== undefined) {
+          if (value !== null && value !== undefined && value !== "") {
             params.append(key, String(value));
           }
         });
+
+        if (!params.has("page")) {
+          params.append("page", "1");
+        }
 
         const response = await fetch(`/api/movies?${params.toString()}`);
 
@@ -57,7 +65,19 @@ export function MovieList({ filters }: MovieListProps) {
         setMovies(data.movies || data.data || []);
 
         if (data.pagination) {
-          setPagination(data.pagination);
+          setPagination({
+            currentPage: data.pagination.page || currentPage,
+            totalPages: data.pagination.totalPages || 1,
+            totalItems: data.pagination.total || 0,
+            itemsPerPage: data.pagination.limit || 10,
+          });
+        } else {
+          setPagination({
+            currentPage,
+            totalPages: 1,
+            totalItems: data.data?.length ?? 0,
+            itemsPerPage: 10,
+          });
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Erro desconhecido");
@@ -68,7 +88,14 @@ export function MovieList({ filters }: MovieListProps) {
     };
 
     fetchMovies();
-  }, [filters]);
+  }, [filters, currentPage]);
+
+  const handlePageChange = (page: number) => {
+    if (onPageChange) {
+      onPageChange(page);
+    }
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (loading) {
     return (
@@ -117,7 +144,7 @@ export function MovieList({ filters }: MovieListProps) {
             <MovieCard
               key={movie.id}
               id={movie.id}
-              genres={movie.genre}
+              genres={movie.genres}
               image={movie.posterUrl!}
               rating={movie.rating}
               title={movie.title}
@@ -125,6 +152,15 @@ export function MovieList({ filters }: MovieListProps) {
           ))}
         </div>
       </div>
+      {pagination && pagination.totalPages > 1 && (
+        <div className="flex items-center justify-center py-6">
+          <Pagination
+            currentPage={pagination.currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={handlePageChange}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -38,6 +38,10 @@ export function MoviesPage() {
     setFilters({ title: null, page: 1 });
   };
 
+  const handlePageChange = (page: number) => {
+    setFilters({ ...filters, page });
+  };
+
   return (
     <div className="flex-1 container mx-auto ">
       <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center gap-4  py-6 lg:px-0 px-4">
@@ -63,10 +67,10 @@ export function MoviesPage() {
             <Filters />
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="primary" className="flex-1">
+                <Button size="lg" variant="primary" className="flex-1">
                   Adicionar Filme
                 </Button>
-              </SheetTrigger>{" "}
+              </SheetTrigger>
               <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                   <SheetTitle>Adicionar Filme</SheetTitle>
@@ -80,7 +84,7 @@ export function MoviesPage() {
         </div>
       </div>
 
-      <MovieList filters={filters} />
+      <MovieList filters={filters} onPageChange={handlePageChange} />
     </div>
   );
 }

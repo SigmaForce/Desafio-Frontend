@@ -5,7 +5,15 @@ import {
   formatDuration,
 } from "../lib/utils";
 import type { Movie } from "../pages/MovieDetailsPage";
+import { EditMovieForm } from "./EditMovieForm";
 import { Button } from "./ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "./ui/sheet";
 
 interface MovieDetailsProps {
   movie: Movie;
@@ -30,12 +38,26 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
             Título original: {movie.originalTitle}
           </p>
         </div>
-        {user?.id !== movie.userId && (
+        {user?.id === movie.userId && (
           <div className="flex gap-3 mb-3 lg:mb-0">
-            <Button variant="secondary">Deletar</Button>
-            <Button variant="primary" className="flex-1">
-              Editar
+            <Button size="lg" variant="secondary">
+              Deletar
             </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button size="lg" variant="primary" className="flex-1">
+                  Editar Filme
+                </Button>
+              </SheetTrigger>
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle> Editar Filme</SheetTitle>
+                </SheetHeader>
+                <div className="p-4">
+                  <EditMovieForm movie={movie} />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         )}
       </div>

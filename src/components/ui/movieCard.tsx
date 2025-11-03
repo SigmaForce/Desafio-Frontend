@@ -6,7 +6,7 @@ interface MovieCardProps {
   title: string;
   image: string;
   rating: number;
-  genres: string;
+  genres: string[];
 }
 
 export function MovieCard({
@@ -83,7 +83,14 @@ export function MovieCard({
         <h3 className="text-white text-base font-bold font-mono mb-2">
           {title}
         </h3>
-        <p className="text-[#EBEAF8] font-mono text-sm">{genres}</p>
+        <p className="text-[#EBEAF8] font-mono text-sm">
+          {genres.map((genre, index) => (
+            <span key={index}>
+              {genre}
+              {index < genres.length - 1 && ", "}
+            </span>
+          ))}
+        </p>
       </div>
 
       <div

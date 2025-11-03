@@ -6,6 +6,7 @@ import { PublicRoute } from "./components/PublicRoute";
 import { AuthProvider } from "./context/AuthContext";
 import { Layout } from "./Layout";
 import { LoginPage } from "./pages/LoginPage";
+import { MovieDetailsPage } from "./pages/MovieDetailsPage";
 import { MoviesPage } from "./pages/MoviesPage";
 import { RegisterPage } from "./pages/RegisterPage";
 
@@ -38,6 +39,15 @@ export function AppRouter() {
                 element={
                   <ProtectedRoute>
                     <MoviesPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/movies/:id"
+                element={
+                  <ProtectedRoute>
+                    <MovieDetailsPage />
                   </ProtectedRoute>
                 }
               />
