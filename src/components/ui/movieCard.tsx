@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface MovieCardProps {
   id: string;
@@ -8,12 +9,19 @@ interface MovieCardProps {
   genres: string;
 }
 
-export function MovieCard({ title, image, rating, genres }: MovieCardProps) {
+export function MovieCard({
+  id,
+  title,
+  image,
+  rating,
+  genres,
+}: MovieCardProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
-      className="relative w-full lg:max-w-3xs rounded-sm cursor-pointer bg-blue-500 lg:h-[360px]"
+    <Link
+      to={`/movies/${id}`}
+      className="relative w-full rounded-sm cursor-pointer lg:h-[360px]"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -60,7 +68,9 @@ export function MovieCard({ title, image, rating, genres }: MovieCardProps) {
           </svg>
 
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-4xl font-bold text-[#FFE000]">{rating}%</span>
+            <span className="text-4xl font-bold text-[#FFE000]">
+              {parseInt(rating + "")}%
+            </span>
           </div>
         </div>
       </div>
@@ -83,6 +93,6 @@ export function MovieCard({ title, image, rating, genres }: MovieCardProps) {
       >
         <h3 className="text-white text-xl font-bold">{title}</h3>
       </div>
-    </div>
+    </Link>
   );
 }

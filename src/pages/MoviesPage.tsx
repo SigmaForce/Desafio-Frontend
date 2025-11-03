@@ -4,6 +4,14 @@ import { MovieList } from "../components/MovieList";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 
+import { CreateMovieForm } from "../components/CreateMovieForm";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../components/ui/sheet";
 import { useDebounce } from "../hooks/useDebounce";
 import { useMovieFilters } from "../hooks/useMovieFilters";
 
@@ -53,9 +61,21 @@ export function MoviesPage() {
           </div>
           <div className="flex gap-4 items-center">
             <Filters />
-            <Button variant="primary" className="flex-1">
-              Adicionar Filme
-            </Button>
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="primary" className="flex-1">
+                  Adicionar Filme
+                </Button>
+              </SheetTrigger>{" "}
+              <SheetContent className="overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle>Adicionar Filme</SheetTitle>
+                </SheetHeader>
+                <div className="p-4">
+                  <CreateMovieForm />
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </div>
