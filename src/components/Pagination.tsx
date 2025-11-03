@@ -1,5 +1,7 @@
 "use client";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+
+import ChevronLeft from "../assets/icons/chevron-left.png";
+import ChevronRight from "../assets/icons/chevron-right.png";
 import { Button } from "./ui/button";
 
 type PaginationProps = {
@@ -77,7 +79,7 @@ export function Pagination({
         className="disabled:bg-[#EBEAF8]/8"
         disabled={currentPage === 1}
       >
-        <ChevronLeft aria-label="Anterior" />
+        <img src={ChevronLeft} aria-label="Anterior" />
       </Button>
       <div className="flex items-center lg:space-x-2 space-x-1 lg:text-base text-sm bg-white/10 ">
         {renderPageNumbers()}
@@ -89,7 +91,7 @@ export function Pagination({
         disabled={currentPage === totalPages}
         className="disabled:bg-[#EBEAF8]/8"
       >
-        <ChevronRight aria-label="Próximo" />
+        <img src={ChevronRight} aria-label="Próximo" />
       </Button>
     </div>
   );
