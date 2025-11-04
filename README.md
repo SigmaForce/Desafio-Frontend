@@ -9,15 +9,15 @@ Uma aplicação web moderna para explorar e gerenciar filmes, construída com Re
 Antes de começar, você precisa ter instalado em sua máquina:
 
 - [Node.js](https://nodejs.org/) (versão 18 ou superior)
-- [pnpm](https://pnpm.io/) (gerenciador de pacotes)
+- [pnpm](https://pnpm.io/) (gerenciador de pacotes)'
 
 ### Instalação
 
 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SigmaForce/cubos-movies.git
-cd cubos-movies
+git https://github.com/SigmaForce/Desafio-Frontend.git
+cd Desafio-Frontend
 ```
 
 2. Instale as dependências
@@ -46,6 +46,14 @@ pnpm build
 
 ```bash
 pnpm preview
+```
+
+## Configuração do Ambiente
+
+1. Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+VITE_API_URL=http://localhost:3333 # URL DE PRODUÇÃO
 ```
 
 ### Scripts Disponíveis
@@ -80,3 +88,16 @@ src/
 ├── lib/          # Utilitários e funções auxiliares
 └── pages/        # Componentes de página
 ```
+
+## Documentação da API
+
+- [Docs](https://desafio-backend-30y2.onrender.com/docs/)
+
+## Cubos Movies (Site)
+
+- [Cubos movies](https://desafio-frontend-three-mauve.vercel.app/)
+
+## Repositorios
+
+- [Backend](https://github.com/SigmaForce/Desafio-Backend)
+- [Frontend](https://github.com/SigmaForce/Desafio-Frontend)
