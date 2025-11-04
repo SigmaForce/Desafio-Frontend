@@ -9,10 +9,13 @@ export function useCreateMovie() {
 
   const mutation = useMutation({
     mutationFn: async ({ formData }: CreateMovieData) => {
-      const response = await fetch("/api/movie", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/movie`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         const error = await response.json();

@@ -49,7 +49,9 @@ export function useMoviesQuery(filters: Record<string, any>) {
         params.append("page", "1");
       }
 
-      const res = await fetch(`/api/movies?${params.toString()}`);
+      const res = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/movies?${params.toString()}`
+      );
       if (!res.ok) throw new Error("Erro ao buscar filmes");
 
       const data: MoviesResponse = await res.json();

@@ -10,10 +10,13 @@ export function useEditMovie() {
 
   const mutation = useMutation({
     mutationFn: async ({ id, formData }: EditMovieData) => {
-      const response = await fetch(`/api/movie/${id}`, {
-        method: "PUT",
-        body: formData,
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/movie/${id}`,
+        {
+          method: "PUT",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         const error = await response.json();

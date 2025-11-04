@@ -7,9 +7,12 @@ export function useDeleteMovie() {
 
   const mutation = useMutation({
     mutationFn: async (id: string) => {
-      const response = await fetch(`/api/movie/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/movie/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Erro ao deletar filme");

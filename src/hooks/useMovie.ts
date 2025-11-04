@@ -5,7 +5,9 @@ export function useMovie(id: string) {
   const query = useQuery({
     queryKey: ["movie", id],
     queryFn: async () => {
-      const response = await fetch(`/api/movie/${id}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/api/movie/${id}`
+      );
 
       if (!response.ok) {
         throw new Error("Erro ao carregar detalhes do filme");

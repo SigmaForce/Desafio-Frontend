@@ -30,7 +30,7 @@ export default function MovieDetails({ movie }: MovieDetailsProps) {
 
   const { mutateAsync: deleteMovie } = useMutation({
     mutationFn: async (id: string) => {
-      await fetch(`/api/movie/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/movie/${id}`, {
         method: "DELETE",
       });
     },
